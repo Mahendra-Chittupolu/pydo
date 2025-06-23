@@ -100,15 +100,13 @@ clean-docs: ## Delete everything in docs/build/html
 	cd docs && \
 	poetry run make clean
 
-.PHONY: _install_github_release_notes
-_install_github_release_notes:
-	@GO111MODULE=off go get -u github.com/digitalocean/github-changelog-generator
-
 .PHONY: changes
-changes: _install_github_release_notes
-	@echo "==> Merged PRs since last release"
+changes:
+	@echo "==> Checking recent changes (manual review)"
+	@echo "Recent commits:"
+	@git log --oneline -10
 	@echo ""
-	@github-changelog-generator -org digitalocean -repo pydo
+	@echo "To see merged PRs, run: gh pr list --state merged --limit 10"
 
 .PHONY: version
 version:
